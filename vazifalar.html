@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelajak markazi — Vazifalar jurnali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#16294A;
+    --navy-2:#0F1D35;
+    --gold:#C6972E;
+    --gold-light:#F0DFB4;
+    --teal:#1C7C74;
+    --teal-light:#DCEFEC;
+    --paper:#EEF1F0;
+    --card:#FFFFFF;
+    --ink:#1B1F27;
+    --ink-soft:#5B6270;
+    --line:#DDE1E0;
+    --stamp-red:#A3372E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:28px 32px 22px;
+    position:relative;
+  }
+  header.top::after{
+    content:"";
+    display:block;
+    height:3px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold) 60%, transparent 60%);
+    margin-top:20px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:6px;
+  }
+  header.top h1{font-size:26px;color:#fff;}
+  .top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .overall-stat{
+    text-align:right;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .overall-stat .num{font-size:28px;font-weight:500;color:var(--gold-light);}
+  .overall-stat .label{font-size:11px;color:#B9C2D4;letter-spacing:.05em;}
+
+  .layout{
+    display:flex;
+    max-width:1180px;
+    margin:0 auto;
+    gap:0;
+    align-items:flex-start;
+  }
+  nav.side{
+    width:280px;
+    flex-shrink:0;
+    position:sticky;
+    top:0;
+    padding:24px 16px 40px 24px;
+    max-height:100vh;
+    overflow-y:auto;
+  }
+  nav.side .nav-item{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:10px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    color:var(--ink);
+    margin-bottom:4px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+  }
+  nav.side .nav-item:hover{background:#fff;}
+  nav.side .nav-item.active{background:#fff;box-shadow:inset 3px 0 0 var(--teal);font-weight:500;}
+  nav.side .nav-item .pct{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    flex-shrink:0;
+  }
+  nav.side .nav-item.done-all .pct{color:var(--teal);}
+
+  main{flex:1;min-width:0;padding:28px 32px 80px;}
+
+  section.category{margin-bottom:44px;}
+  section.category .cat-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:2px solid var(--navy);
+    padding-bottom:10px;
+    margin-bottom:16px;
+    gap:16px;
+  }
+  section.category h2{font-size:19px;color:var(--navy);}
+  section.category .cat-progress{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  .task{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .task-row{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .stamp-btn{
+    flex-shrink:0;
+    width:38px;height:38px;
+    border-radius:50%;
+    border:2px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;
+    color:transparent;
+    transition:transform .08s ease;
+    position:relative;
+    margin-top:2px;
+  }
+  .stamp-btn:hover{border-color:var(--teal);}
+  .stamp-btn.done{
+    border:2px solid var(--stamp-red);
+    color:var(--stamp-red);
+    transform:rotate(-8deg);
+    font-weight:700;
+    font-size:8px;
+    line-height:1.1;
+    text-align:center;
+  }
+  .stamp-btn.done::after{
+    content:"";
+    position:absolute;inset:-4px;
+    border:1px solid var(--stamp-red);
+    border-radius:50%;
+    opacity:.5;
+  }
+  .task-body{flex:1;min-width:0;}
+  .task-text{font-size:14.5px;line-height:1.5;}
+  .task-text.done{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--line);}
+  .task-meta-toggle{
+    margin-top:8px;
+    background:none;border:none;
+    color:var(--teal);
+    font-size:12px;
+    cursor:pointer;
+    padding:0;
+    font-family:'Inter',sans-serif;
+  }
+  .task-extra{
+    margin-top:10px;
+    display:none;
+    gap:8px;
+    flex-direction:column;
+  }
+  .task-extra.open{display:flex;}
+  .task-extra label{
+    font-size:11px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:3px;
+    display:block;
+  }
+  .task-extra textarea, .task-extra input[type=text]{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--paper);
+    resize:vertical;
+    color:var(--ink);
+  }
+  .task-extra textarea{min-height:56px;}
+  .save-hint{font-size:11px;color:var(--ink-soft);font-style:italic;}
+  .del-custom{
+    background:none;border:none;color:var(--stamp-red);
+    font-size:11px;cursor:pointer;align-self:flex-start;padding:2px 0;
+  }
+
+  .add-row{
+    display:flex;gap:8px;margin-top:6px;
+  }
+  .add-row input{
+    flex:1;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:9px 12px;
+    border:1px dashed var(--line);
+    border-radius:8px;
+    background:transparent;
+  }
+  .add-row button{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:9px 16px;
+    border:1px solid var(--teal);
+    color:var(--teal);
+    background:#fff;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .add-row button:hover{background:var(--teal-light);}
+
+  .archive-note{
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:12.5px;
+    color:#0F4A44;
+    margin:0 32px 24px;
+    max-width:1180px;
+    margin-left:auto;margin-right:auto;
+    line-height:1.6;
+  }
+  .archive-note b{color:#0A332F;}
+
+  @media (max-width:860px){
+    .layout{flex-direction:column;}
+    nav.side{width:100%;position:relative;max-height:none;padding:16px;display:flex;flex-wrap:wrap;gap:4px;}
+    nav.side .nav-item{width:auto;}
+    main{padding:20px 16px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">Maktabgacha va maktab ta'limi vazirligi · "Kelajak" markazi</div>
+  <div class="top-row">
+    <h1>Maktab maslahatchisi — vazifalar jurnali</h1>
+    <div class="overall-stat">
+      <div class="num" id="overallPct">0%</div>
+      <div class="label" id="overallCount">0 / 0 bajarildi</div>
+    </div>
+  </div>
+</header>
+
+<p class="archive-note">
+  Bu sahifa — sizning shaxsiy vazifalar va qaydlar jurnalingiz. Har bir band uchun bajarilganini belgilashingiz, izoh yozishingiz va tegishli hujjat havolasini (masalan, Google Drive'dagi PDF havolasi) saqlashingiz mumkin. <b>Muhim:</b> bu sahifa asl PDF fayllarni ichiga saqlay olmaydi — fayllarni Google Drive yoki boshqa joyga yuklab, shu yerga havolasini qo'yish tavsiya etiladi. Yozganlaringiz shu qurilma/brauzerda saqlanadi.
+</p>
+
+<div class="layout">
+  <nav class="side" id="sideNav"></nav>
+  <main id="mainContent"></main>
+</div>
+
+<script>
+const STORAGE_KEY = 'kelajak-vazifalar-v1';
+
+const DATA = [
+  {
+    id:'c1', title:'"Prezident iqtidorli farzandlari" milliy dasturi mazmunini yoritish',
+    tasks:[
+      {id:'c1t1', text:"PM (Prezident maktablari) bilan hamkorlik"},
+      {id:'c1t2', text:"O'quvchilar qobiliyatiga qarab individual ishlash"},
+      {id:'c1t3', text:"Xalqaro TOP-300 universitetlar bo'yicha yo'naltirish"},
+      {id:'c1t4', text:"PM yordamida MOCK imtihonlarini topshirish"},
+    ]
+  },
+  {
+    id:'c2', title:"Tarmoq to'garaklari faoliyatini tizimli tashkil etish",
+    tasks:[
+      {id:'c2t1', text:"Tarmoq to'garaklariga yo'naltirish (Madaniyat, Robototexnika, San'at, Kitobxonlik, Sport)"},
+      {id:'c2t2', text:"Vazirlar Mahkamasining 2019-yil 22-apreldagi 343-sonli qarorini monitoring qilish"},
+      {id:'c2t3', text:"Sport seksiyalar va klublar tashkil etish"},
+    ]
+  },
+  {
+    id:'c3', title:"O'quvchilarni tarixiy obidalar, qadriyatlar bilan yaqindan tanishtirish",
+    tasks:[
+      {id:'c3t1', text:"Tarixiy shaharlarga (Samarqand, Buxoro, Xiva) sayohatlar tashkil etish"},
+      {id:'c3t2', text:"Buyuk allomalar haqida ma'ruzalar tashkil etish"},
+      {id:'c3t3', text:"Multimedia taqdimotlar, videolar va virtual turlar orqali tarixiy joylarni ko'rsatish"},
+      {id:'c3t4', text:"Milliy taomlar, kiyimlar va marosimlar bilan tanishtirish"},
+    ]
+  },
+  {
+    id:'c4', title:'"O\'quvchilar kengashi" faoliyatini yo\'lga qo\'yish',
+    tasks:[
+      {id:'c4t1', text:"6-11-sinf o'quvchilari o'rtasida to'garaklarni targ'ib qilish"},
+      {id:'c4t2', text:"Kengash a'zolarini klublarga jalb etish"},
+      {id:'c4t3', text:"Sinf va maktab saylovlarini o'tkazish"},
+      {id:'c4t4', text:"O'quvchilar kengashi tarkibini saylov yo'li bilan shakllantirish"},
+    ]
+  },
+  {
+    id:'c5', title:"Madaniyat, san'at, kitobxonlik, sport va ekologik yo'nalishlardagi loyihalar",
+    tasks:[
+      {id:'c5t1', text:"Kelajak kasblari to'g'risida ma'lumot berish"},
+      {id:'c5t2', text:"Psixolog orqali kasbga qiziqishini aniqlash"},
+      {id:'c5t3', text:"Kasb ko'rgazmalarida ishtirok etish"},
+      {id:'c5t4', text:"9-sinf o'quvchilarining 50 foizini texnikumga yo'naltirish"},
+    ]
+  },
+  {
+    id:'c6', title:"Ma'lumotlar bazasini shakllantirish va yuritish (Ijtimoiy portfolio)",
+    tasks:[
+      {id:'c6t1', text:"To'garaklarga jalb etilganligini qayd etish"},
+      {id:'c6t2', text:"Akademik yutuqlarini kiritish (Fan olimpiada, IELTS/SAT, milliy sertifikat)"},
+      {id:'c6t3', text:"Xalqaro tanlovlarda ishtirokini qayd etish"},
+      {id:'c6t4', text:"O'quvchilar kengashiga a'zolikni qayd etish"},
+    ]
+  },
+  {
+    id:'c7', title:"Kasb-hunarga yo'naltirish funksiyalari",
+    tasks:[
+      {id:'c7t1', text:"So'rovnomalar o'tkazish"},
+      {id:'c7t2', text:"\"Mening kelajakdagi kasbim\" dasturi asosida 7-9-sinf o'quvchilarini kasb-hunarga yo'naltirish"},
+      {id:'c7t3', text:"Korxonalarga ekskursiya tashkil etish va kasb egalari bilan uchrashuvlar o'tkazish"},
+      {id:'c7t4', text:"Maktab psixologi bilan birgalikda kasbga qiziqishini aniqlash"},
+      {id:'c7t5', text:"O'quvchining kasbga qiziqishi bo'yicha ota-onasi bilan muhokama qilish"},
+      {id:'c7t6', text:"O'quvchilarni mamlakat va xorijdagi nufuzli OTMlarga kirishga ko'maklashish"},
+    ]
+  },
+  {
+    id:'c8', title:"Klublar va to'garaklar",
+    tasks:[
+      {id:'c8t1', text:"\"Turon teatr\", \"Iqtidor ansambli\", \"Jadidlar izidan\", \"Eco-schools Uzbekistan\", \"Xorijiy tillar\", \"Debat\", \"Raqamli avlod qizlari\" klublarini tashkil etish"},
+      {id:'c8t2', text:"Inklyuziv to'garaklar faoliyatini yo'lga qo'yish"},
+      {id:'c8t3', text:"To'garak jarayonlarini tahlil qilish"},
+      {id:'c8t4', text:"O'quvchilarni fan o'qituvchilariga biriktirish"},
+    ]
+  },
+  {
+    id:'c9', title:"O'quvchilar kengashi va hamkorlik",
+    tasks:[
+      {id:'c9t1', text:"\"O'quvchilar kengashi\" saylovlarini o'tkazish, seminar va treninglar tashkil etish"},
+      {id:'c9t2', text:"Kengash a'zolari va to'garak rahbarlari ishlarini OAV va ijtimoiy tarmoqlarda yoritish"},
+      {id:'c9t3', text:"Prezident va ixtisoslashtirilgan maktablardagi maslahatchilar bilan hamkorlik qilish"},
+      {id:'c9t4', text:"\"Prezident iqtidorli farzandlari\" dasturi ishtirokchilari uchun MOCK imtihonlarini o'tkazish"},
+    ]
+  },
+  {
+    id:'c10', title:"Platforma, hisobot va tahlil",
+    tasks:[
+      {id:'c10t1', text:"\"Kelajak\" markazining elektron platformasini yuritish"},
+      {id:'c10t2', text:"\"Ijtimoiy portfolio\" modulini yuritish"},
+      {id:'c10t3', text:"\"Kelajak\" soatini muvofiqlashtirish"},
+      {id:'c10t4', text:"\"Kelajak\" markazining tuman (shahar) markaziga takliflar kiritish"},
+    ]
+  },
+  {
+    id:'c11', title:"Tadbirlar va loyihalar",
+    tasks:[
+      {id:'c11t1', text:"Bolalarni ta'lim, media, madaniyat, ekologiya, sport, kitobxonlik yo'nalishlaridagi tashabbuslarini qo'llab-quvvatlash; festival, forum, vebinar va oromgohlarda ishtirokini ta'minlash"},
+      {id:'c11t2', text:"Festival, tanlov, musobaqa va tadbirlar uchun ssenariy ishlab chiqish hamda tashkil etish"},
+      {id:'c11t3', text:"Grant loyihalarda ishtirok etish"},
+    ]
+  },
+];
+
+let state = { taskState:{}, customTasks:{} };
+let saveTimer = null;
+
+function debounceSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState, 400);
+}
+
+async function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }catch(e){ console.error('Saqlashda xatolik', e); }
+}
+
+async function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      state.taskState = parsed.taskState || {};
+      state.customTasks = parsed.customTasks || {};
+    }
+  }catch(e){
+    // key does not exist yet — fine, start fresh
+  }
+}
+
+function getTS(id){
+  if(!state.taskState[id]) state.taskState[id] = {done:false, note:'', link:''};
+  return state.taskState[id];
+}
+
+function allTasksOf(cat){
+  const custom = (state.customTasks[cat.id]||[]).map(c=>({id:c.id, text:c.text, custom:true}));
+  return [...cat.tasks, ...custom];
+}
+
+function computeCatProgress(cat){
+  const tasks = allTasksOf(cat);
+  const done = tasks.filter(t=>getTS(t.id).done).length;
+  return {done, total: tasks.length};
+}
+
+function computeOverall(){
+  let done=0, total=0;
+  DATA.forEach(cat=>{
+    const p = computeCatProgress(cat);
+    done += p.done; total += p.total;
+  });
+  return {done, total};
+}
+
+let activeCat = DATA[0].id;
+
+function render(){
+  renderNav();
+  renderMain();
+  renderOverall();
+}
+
+function renderOverall(){
+  const {done,total} = computeOverall();
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('overallPct').textContent = pct+'%';
+  document.getElementById('overallCount').textContent = done+' / '+total+' bajarildi';
+}
+
+function renderNav(){
+  const nav = document.getElementById('sideNav');
+  nav.innerHTML = '';
+  DATA.forEach(cat=>{
+    const {done,total} = computeCatProgress(cat);
+    const btn = document.createElement('button');
+    btn.className = 'nav-item' + (cat.id===activeCat?' active':'') + (done===total && total>0 ? ' done-all':'');
+    btn.innerHTML = `<span>${cat.title}</span><span class="pct">${done}/${total}</span>`;
+    btn.onclick = ()=>{ activeCat = cat.id; render(); document.getElementById('main-'+cat.id)?.scrollIntoView({behavior:'smooth', block:'start'}); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderMain(){
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '';
+  DATA.forEach(cat=>{
+    const section = document.createElement('section');
+    section.className = 'category';
+    section.id = 'main-'+cat.id;
+    const {done,total} = computeCatProgress(cat);
+
+    const head = document.createElement('div');
+    head.className = 'cat-head';
+    head.innerHTML = `<h2>${cat.title}</h2><span class="cat-progress">${done} / ${total}</span>`;
+    section.appendChild(head);
+
+    allTasksOf(cat).forEach(task=>{
+      section.appendChild(renderTask(cat, task));
+    });
+
+    const addRow = document.createElement('div');
+    addRow.className = 'add-row';
+    addRow.innerHTML = `<input type="text" placeholder="Yangi band qo'shish..." id="newinput-${cat.id}"><button type="button">Qo'shish</button>`;
+    addRow.querySelector('button').onclick = ()=> addCustomTask(cat);
+    addRow.querySelector('input').addEventListener('keydown', e=>{ if(e.key==='Enter') addCustomTask(cat); });
+    section.appendChild(addRow);
+
+    main.appendChild(section);
+  });
+}
+
+function renderTask(cat, task){
+  const ts = getTS(task.id);
+  const wrap = document.createElement('div');
+  wrap.className = 'task';
+
+  const row = document.createElement('div');
+  row.className = 'task-row';
+
+  const stamp = document.createElement('button');
+  stamp.type = 'button';
+  stamp.className = 'stamp-btn' + (ts.done?' done':'');
+  stamp.textContent = ts.done ? 'BAJARILDI' : '';
+  stamp.title = ts.done ? "Bajarilgan deb belgilangan" : "Bajarilgan deb belgilash";
+  stamp.onclick = ()=>{
+    ts.done = !ts.done;
+    debounceSave();
+    render();
+  };
+  row.appendChild(stamp);
+
+  const body = document.createElement('div');
+  body.className = 'task-body';
+
+  const textEl = document.createElement('div');
+  textEl.className = 'task-text' + (ts.done?' done':'');
+  textEl.textContent = task.text;
+  body.appendChild(textEl);
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'task-meta-toggle';
+  toggle.textContent = (ts.note || ts.link) ? 'Izoh / hujjat havolasi (mavjud)' : 'Izoh / hujjat havolasi qo\'shish';
+  body.appendChild(toggle);
+
+  const extra = document.createElement('div');
+  extra.className = 'task-extra';
+
+  const noteLabel = document.createElement('label');
+  noteLabel.textContent = 'Izoh';
+  const noteArea = document.createElement('textarea');
+  noteArea.placeholder = 'Masalan: 12-sinflar bo\'yicha bajarildi, dalolatnoma tuzildi...';
+  noteArea.value = ts.note;
+  noteArea.oninput = ()=>{ ts.note = noteArea.value; debounceSave(); };
+
+  const linkLabel = document.createElement('label');
+  linkLabel.textContent = 'Hujjat havolasi (Google Drive va h.k.)';
+  const linkInput = document.createElement('input');
+  linkInput.type = 'text';
+  linkInput.placeholder = 'https://drive.google.com/...';
+  linkInput.value = ts.link;
+  linkInput.oninput = ()=>{ ts.link = linkInput.value; debounceSave(); };
+
+  extra.appendChild(noteLabel);
+  extra.appendChild(noteArea);
+  extra.appendChild(linkLabel);
+  extra.appendChild(linkInput);
+
+  if(task.custom){
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'del-custom';
+    del.textContent = "Bu bandni o'chirish";
+    del.onclick = ()=> deleteCustomTask(cat, task.id);
+    extra.appendChild(del);
+  }
+
+  toggle.onclick = ()=> extra.classList.toggle('open');
+
+  body.appendChild(extra);
+  row.appendChild(body);
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function addCustomTask(cat){
+  const input = document.getElementById('newinput-'+cat.id);
+  const val = input.value.trim();
+  if(!val) return;
+  if(!state.customTasks[cat.id]) state.customTasks[cat.id] = [];
+  const id = 'custom_'+cat.id+'_'+Date.now();
+  state.customTasks[cat.id].push({id, text: val});
+  debounceSave();
+  render();
+}
+
+function deleteCustomTask(cat, id){
+  state.customTasks[cat.id] = (state.customTasks[cat.id]||[]).filter(c=>c.id!==id);
+  delete state.taskState[id];
+  debounceSave();
+  render();
+}
+
+(async function init(){
+  await loadState();
+  render();
+})();
+</script>
+</body>
+</html>
